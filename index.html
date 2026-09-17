@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Indra</title>
+<style>
+  :root {
+    --biru-tua: #0a2a5e;
+    --biru-sedang: #1e56a0;
+    --biru-muda: #a7d8f0;
+    --biru-muda-2: #d4ecfa;
+    --putih: #ffffff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--biru-tua) 0%, var(--biru-sedang) 45%, var(--biru-muda) 100%);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* balon dekorasi */
+  .balon {
+    position: absolute;
+    bottom: -150px;
+    width: 45px;
+    height: 60px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.85;
+    animation: naik linear infinite;
+  }
+  .balon::after {
+    content: '';
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    width: 1px;
+    height: 35px;
+    background: rgba(255,255,255,0.6);
+  }
+
+  @keyframes naik {
+    0%   { transform: translateY(0) translateX(0); opacity: 0.9; }
+    100% { transform: translateY(-110vh) translateX(30px); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 24px;
+    padding: 50px 40px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(10, 42, 94, 0.4);
+    border: 3px solid var(--biru-muda);
+    animation: muncul 1s ease-out;
+  }
+
+  @keyframes muncul {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .kue {
+    font-size: 60px;
+    margin-bottom: 10px;
+    animation: goyang 2s ease-in-out infinite;
+  }
+
+  @keyframes goyang {
+    0%, 100% { transform: rotate(-5deg); }
+    50%      { transform: rotate(5deg); }
+  }
+
+  h1 {
+    color: var(--biru-tua);
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  h2 {
+    color: var(--biru-sedang);
+    font-size: 2.1rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .garis {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--biru-tua), var(--biru-muda));
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+
+  .emoji-baris {
+    font-size: 1.8rem;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tombol {
+    margin-top: 10px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--biru-sedang), var(--biru-tua));
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10, 42, 94, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tombol:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(10, 42, 94, 0.45);
+  }
+  .tombol:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  #confettiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .tombol-love {
+    margin-top: 12px;
+    margin-left: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--biru-tua);
+    background: #ffffff;
+    border: 2px solid var(--biru-sedang);
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10, 42, 94, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tombol-love:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(10, 42, 94, 0.3);
+  }
+  .tombol-love:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Pop-up Modals */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 42, 94, 0.65);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.aktif {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-konten {
+    background: #ffffff;
+    padding: 25px 20px;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    border: 2px solid var(--biru-muda);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+  }
+
+  .modal-overlay.aktif .modal-konten {
+    transform: scale(1);
+  }
+
+  p.pesan {
+    color: #2c3e50;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: left;
+    white-space: pre-line;
+  }
+
+  /* Pembungkus Foto Rasio 9:16 */
+  .foto-container {
+    width: 100%;
+    max-width: 250px;
+    aspect-ratio: 9 / 16;
+    margin: 15px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    border: 3px solid var(--biru-muda-2);
+  }
+
+  .foto-kejutan {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .tombol-tutup {
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--biru-sedang);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .love-terbang {
+    position: fixed;
+    bottom: -50px;
+    font-size: 2rem;
+    z-index: 15;
+    pointer-events: none;
+    animation: loveNaik linear forwards;
+  }
+
+  @keyframes loveNaik {
+    0%   { transform: translateY(0) translateX(0) scale(0.8); opacity: 1; }
+    100% { transform: translateY(-100vh) translateX(var(--geser, 0px)) scale(1.2); opacity: 0; }
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.6rem; }
+    .card { padding: 35px 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Audio Lagu Cinta -->
+  <audio id="musikCinta" loop preload="auto">
+    <!-- Ganti URL src di bawah ini jika ingin menggunakan file lagu MP3 sendiri -->
+    <source src="WhatsApp Audio 2023-09-17 at 20.37.58.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <div class="kue">🎂</div>
+    <h1>Happy Birthday</h1>
+    <h2>Sayangkuu</h2>
+    <div class="garis"></div>
+    <div class="emoji-baris">🎈 🎁 🥳</div>
+    <div>
+      <button class="tombol" id="btnKejutan">🎉 Klik untuk Kejutan!</button>
+      <button class="tombol-love" id="btnLove">💙 Tekan Aku!</button>
+    </div>
+  </div>
+
+  <!-- Pop-up Kejutan (Foto 9:16) -->
+  <div class="modal-overlay" id="modalKejutan">
+    <div class="modal-konten">
+      <div style="font-size: 2.2rem;">📸✨</div>
+      <h3 style="color: var(--biru-tua); margin-top: 5px;">Momen Spesial Kita!</h3>
+      
+      <div class="foto-container">
+        <img src="WhatsApp Image 2026-09-17 at 20.37.58.jpeg" alt="Foto Kenangan" class="foto-kejutan">
+      </div>
+      
+      <p style="color: #4a5568; font-size: 0.95rem; font-style: italic; margin-bottom: 15px;">
+        "terima kasih sudah hadir dan membuat setiap momen bersamamu terasa begitu berarti. hal hal sederhana jadi terasa spesial karena ada kamu. semoga kita selalu punya banyak cerita indah untuk dikenang bersamaaa🤍"
+      </p>
+      <button class="tombol-tutup" id="btnTutupKejutan">Tutup 🤍</button>
+    </div>
+  </div>
+
+  <!-- Pop-up Ucapan Panjang (Tekan Aku) -->
+  <div class="modal-overlay" id="modalUcapan">
+    <div class="modal-konten">
+      <div style="font-size: 2.2rem; margin-bottom: 5px;">💌</div>
+      <h3 style="color: var(--biru-tua); margin-bottom: 15px;">Selamat Ulang Tahun, Sayang! 🤍</h3>
+      <p class="pesan">
+selamat ulang tahun, sayangkuu cintakuu gantengkuu 🤍🤍
+
+hari ini adalah hari spesial buat kamu, dan aku mau ngucapin terima kasih untuk semua hal yang selama ini kamu lakukan buat akuu. makasii kamu selalu sabar menghadapi sifat dan tingkah kuu, selalu berusaha mengerti apa yang aku rasakan. makasii juga kamu selalu berusaha menuruti apa yang aku mau dan bikin aku merasa diperhatikan. mungkin buat kamu beberapa hal itu sederhana, tapi buat aku, setiap usaha kecil yang kamu lakukan punya arti yang besar💕
+
+aku juga sangat sangatt menghargai semua effort kamu selama ini. kamu selalu berusaha meluangkan waktu, ngasii aku perhatian, mendengarkan ceritaku, dan tetap ada ketika aku butuhh kamu. aku tahu tidak semua hal selalu mudah, tapi kamu tetap berusaha mempertahankan hubungan ini dan memberikan yang terbaikk. aku bersyukur bisa mengenal seseorang seperti kamu, seseorang yang sabar, pengertian, perhatian, dan mau berusaha untuk orang yang kamu sayangi
+
+di umur kamu yang sekarang, aku berharap semoga kamu selalu diberikan kesehatan, kebahagiaan, dan dimudahkan dalam setiap langkah yang kamu ambil. semogaa semua cita-cita dan keinginan kamu bisa tercapai satu per satu yaa sayangg. jangan lupa untuk selalu menjaga diri, tetap menjadi diri kamu sendiri, dan jangan pernah merasa bahwa usaha kamu selama ini tidak berarti. aku mungkin belum bisa membalas semua kebaikan dan effort kamu dengan sempurna, tapi aku benar-benar menghargai dan menyayangi semuanya yang kamu berikann
+
+semoga di hari ulang tahunmu ini kamu bisa merasakan betapa berharganya kamu bagi orang-orang di sekitarmu, terutama buat aku. makasii sudah menjadi bagian dari hari hariku, sudah menemani, mendengarkan, memahami, dan selalu berusaha membuat aku bahagia. semoga kita bisa terus saling menjaga, saling mengerti, dan melewati banyak hal bersama ke depannya
+
+sekali lagi, selamat ulang tahun yaa sayang. semoga tahun ini menjadi tahun yang penuh hal hal baik buat kamuu. tetap jadi kamu yang sabar, pengertian, dan penuh effort itu yaa. aku sayang kamu, dan aku bersyukur bisa punya kamuuu 🤍
+      </p>
+      <button class="tombol-tutup" id="btnTutupUcapan">Tutup 💙</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== Buat balon dekorasi bertebaran =====
+    const warnaBalon = ['#1e56a0', '#a7d8f0', '#0a2a5e', '#d4ecfa'];
+    const jumlahBalon = 15;
+    for (let i = 0; i < jumlahBalon; i++) {
+      const balon = document.createElement('div');
+      balon.className = 'balon';
+      balon.style.left = Math.random() * 100 + 'vw';
+      balon.style.background = warnaBalon[Math.floor(Math.random() * warnaBalon.length)];
+      balon.style.animationDuration = (6 + Math.random() * 6) + 's';
+      balon.style.animationDelay = (Math.random() * 6) + 's';
+      document.body.appendChild(balon);
+    }
+
+    // ===== Efek confetti pakai canvas JavaScript =====
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let confettiList = [];
+    const warnaConfetti = ['#0a2a5e', '#1e56a0', '#a7d8f0', '#d4ecfa', '#ffffff'];
+
+    function buatConfetti() {
+      confettiList = [];
+      const jumlah = 150;
+      for (let i = 0; i < jumlah; i++) {
+        confettiList.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          radius: Math.random() * 6 + 4,
+          warna: warnaConfetti[Math.floor(Math.random() * warnaConfetti.length)],
+          kecepatanX: (Math.random() - 0.5) * 16,
+          kecepatanY: (Math.random() - 1.2) * 16,
+          gravitasi: 0.35,
+          rotasi: Math.random() * 360,
+          kecepatanRotasi: (Math.random() - 0.5) * 12,
+          hidup: 120
+        });
+      }
+      requestAnimationFrame(animasiConfetti);
+    }
+
+    function animasiConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let masihAda = false;
+
+      confettiList.forEach(c => {
+        if (c.hidup <= 0) return;
+        masihAda = true;
+
+        c.x += c.kecepatanX;
+        c.y += c.kecepatanY;
+        c.kecepatanY += c.gravitasi;
+        c.rotasi += c.kecepatanRotasi;
+        c.hidup -= 1;
+
+        ctx.save();
+        ctx.translate(c.x, c.y);
+        ctx.rotate((c.rotasi * Math.PI) / 180);
+        ctx.fillStyle = c.warna;
+        ctx.fillRect(-c.radius / 2, -c.radius / 2, c.radius, c.radius * 0.6);
+        ctx.restore();
+      });
+
+      if (masihAda) {
+        requestAnimationFrame(animasiConfetti);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // ===== Elemen Modal & Musik =====
+    const modalKejutan = document.getElementById('modalKejutan');
+    const modalUcapan = document.getElementById('modalUcapan');
+    const btnTutupKejutan = document.getElementById('btnTutupKejutan');
+    const btnTutupUcapan = document.getElementById('btnTutupUcapan');
+    const musik = document.getElementById('musikCinta');
+
+    function putarMusik() {
+      if (musik.paused) {
+        musik.play().catch(e => console.log("Izin audio dibutuhkan: ", e));
+      }
+    }
+
+    // Klik tombol Kejutan -> Putar Lagu + Confetti + Pop-up Foto
+    document.getElementById('btnKejutan').addEventListener('click', () => {
+      putarMusik();
+      buatConfetti();
+      modalKejutan.classList.add('aktif');
+    });
+
+    // Klik tombol Love -> Putar Lagu + Pop-up Ucapan Panjang + Love Terbang
+    const emojiLoveBiru = ['💙', '💠', '🩵', '🤍'];
+
+    function buatLoveTerbang() {
+      const jumlahLove = 25;
+      for (let i = 0; i < jumlahLove; i++) {
+        setTimeout(() => {
+          const love = document.createElement('div');
+          love.className = 'love-terbang';
+          love.textContent = emojiLoveBiru[Math.floor(Math.random() * emojiLoveBiru.length)];
+          love.style.left = Math.random() * 100 + 'vw';
+          love.style.setProperty('--geser', (Math.random() * 80 - 40) + 'px');
+          love.style.animationDuration = (3 + Math.random() * 2) + 's';
+          document.body.appendChild(love);
+          setTimeout(() => love.remove(), 5000);
+        }, i * 80);
+      }
+    }
+
+    document.getElementById('btnLove').addEventListener('click', () => {
+      putarMusik();
+      modalUcapan.classList.add('aktif');
+      buatLoveTerbang();
+    });
+
+    // Fungsi Tutup Pop-up
+    btnTutupKejutan.addEventListener('click', () => {
+      modalKejutan.classList.remove('aktif');
+    });
+
+    btnTutupUcapan.addEventListener('click', () => {
+      modalUcapan.classList.remove('aktif');
+    });
+  </script>
+
+</body>
+</html>
